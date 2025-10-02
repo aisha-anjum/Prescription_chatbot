@@ -7,13 +7,24 @@ import difflib
 st.markdown("""
 <style>
 .main > div { display: flex; justify-content: center; }
+
+/* Default desktop width */
 .block-container { max-width: 60%; margin: auto; }
+
+
+@media (max-width: 768px) {
+    .block-container {
+        max-width: 95%; 
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
 
+
 st.set_page_config(page_title="Prescription Chatbot", layout="wide")
 st.title("💊 Rule-based Prescription Chatbot")
+
 # ------------------ Knowledge Base ------------------
 DB = {
     "fever": {
@@ -22,12 +33,12 @@ DB = {
         "advice": "Rest, hydrate. See doctor if fever > 3 days or temp >= 39°C."
     },
     "headache": {
-        "keywords": ["headache", "migraine", "head pain"],
+        "keywords": ["headache", "migraine", "head pain","head",  "tension headache"],
         "medicines": ["Ibuprofen 200-400 mg", "Paracetamol 500-1000 mg"],
         "advice": "Rest in a quiet place. See doctor if severe or new neurological signs."
     },
     "sore throat": {
-        "keywords": ["sore throat", "throat pain", "scratchy throat"],
+        "keywords": ["sore throat", "throat pain", "scratchy throat", "throat", "trouble swallowing"],
         "medicines": ["Lozenges or throat spray", "Paracetamol for pain"],
         "advice": "Gargle with warm salt water and stay hydrated."
     },
@@ -37,9 +48,49 @@ DB = {
         "advice": "Hydrate well. See a doctor if cough > 2 weeks or blood is present."
     },
     "stomach pain": {
-        "keywords": ["stomach pain", "abdominal pain", "stomach ache"],
+        "keywords": ["stomach pain", "abdominal pain", "stomach ache","stomach", "gas", "indigestion"],
         "medicines": ["Antacid for mild indigestion"],
         "advice": "Avoid heavy meals. See doctor for severe/persistent pain."
+    },
+    "cold": {
+        "keywords": ["cold", "runny nose", "sneezing", "blocked nose","nose", "nasal congestion"],
+        "medicines": ["Antihistamines", "Decongestant nasal spray"],
+        "advice": "Rest, drink fluids, use steam inhalation."
+    },
+    "diarrhea": {
+        "keywords": ["diarrhea", "loose motion","motion",  "frequent stool"],
+        "medicines": ["ORS (oral rehydration salts)", "Loperamide (for severe cases)"],
+        "advice": "Stay hydrated. Seek doctor if diarrhea lasts > 2 days or has blood."
+    },
+    "vomiting": {
+        "keywords": ["vomit", "vomiting", "nausea", "throwing up"],
+        "medicines": ["Oral rehydration solution", "Domperidone (if severe)"],
+        "advice": "Sip clear fluids. See doctor if persistent or with blood."
+    },
+    "allergy": {
+        "keywords": ["allergy", "itchy skin", "rashes", "sneezing allergy", "hives"],
+        "medicines": ["Antihistamines (Cetirizine, Loratadine)"],
+        "advice": "Avoid allergens. See doctor if swelling of lips/tongue or breathing difficulty."
+    },
+    "back pain": {
+        "keywords": ["back pain", "lower back pain", "spine pain"],
+        "medicines": ["Ibuprofen 200-400 mg", "Paracetamol 500-1000 mg"],
+        "advice": "Maintain good posture, avoid lifting heavy items. Seek care if pain is severe."
+    },
+    "toothache": {
+        "keywords": ["toothache", "dental pain", "teeth pain"],
+        "medicines": ["Paracetamol", "Ibuprofen"],
+        "advice": "Rinse with warm salt water. Visit dentist if pain persists."
+    },
+    "eye infection": {
+        "keywords": ["red eye", "itchy eye", "eye discharge", "conjunctivitis"],
+        "medicines": ["Lubricant eye drops", "Antibiotic eye drops (if bacterial)"],
+        "advice": "Avoid touching/rubbing eyes. See doctor if vision affected."
+    },
+    "skin rash": {
+        "keywords": ["rash","skin", "skin rash", "itchy skin", "red patches"],
+        "medicines": ["Calamine lotion", "Antihistamine tablets"],
+        "advice": "Keep skin clean. Consult doctor if rash spreads quickly."
     }
 }
 
